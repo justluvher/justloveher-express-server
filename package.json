@@ -2,9 +2,6 @@
   "name": "justloveher-express-server",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
   "dependencies": {
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
@@ -15,6 +12,7 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
+    "bower": "^1.8.0",
     "browser-sync": "^2.7.7",
     "connect-history-api-fallback": "^1.1.0",
     "del": "^2.0.2",
@@ -44,6 +42,7 @@
     "web-component-tester": "^4.0.0"
   },
   "scripts": {
+    "nodestart": "node ./bin/www",
     "test": "gulp test:local",
     "start": "gulp serve"
   },
