@@ -42,6 +42,7 @@
     "web-component-tester": "^4.0.0"
   },
   "scripts": {
+    "ebstart":"bower install && npm run nodestart",
     "nodestart": "node ./bin/www",
     "test": "gulp test:local",
     "start": "gulp serve"
