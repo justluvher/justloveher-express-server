@@ -3,13 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "bower": "^1.8.0",
     "body-parser": "~1.15.2",
+    "bower": "^1.8.0",
+    "consolidate": "^0.14.4",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
+    "mustache": "^2.3.0",
+    "mysql": "^2.12.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
@@ -43,7 +46,7 @@
     "web-component-tester": "^4.0.0"
   },
   "scripts": {
-    "ebstart":"bower install && npm run nodestart",
+    "ebstart": "bower install && npm run nodestart",
     "nodestart": "node ./bin/www",
     "test": "gulp test:local",
     "start": "gulp serve"

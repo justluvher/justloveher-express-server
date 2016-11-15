@@ -4,36 +4,41 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var engine = require('consolidate');
+var db = require('./dbConnection');
 
 var index = require('./routes/index');
-// var users = require('./routes/users');
+var users = require('./routes/users');
 
-var app = express();
+var mainApp = express();
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'app'));
-// app.set('view engine', 'html');
+mainApp.set('views', __dirname + '/app');
+mainApp.engine('html', engine.mustache);
+mainApp.set('view engine', 'html');
+// mainApp.set('views', path.join(__dirname, 'app'));
+// mainApp.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'app')));
+mainApp.use(logger('dev'));
+mainApp.use(bodyParser.json());
+mainApp.use(bodyParser.urlencoded({ extended: false }));
+mainApp.use(cookieParser());
+mainApp.use(express.static(path.join(__dirname, 'app')));
 
-app.use('/', index);
-// app.use('/users', users);
+mainApp.use('/', index);
+//mainApp.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+mainApp.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+mainApp.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -43,4 +48,4 @@ app.use(function(err, req, res, next) {
   res.render('index');
 });
 
-module.exports = app;
+module.exports = mainApp;
