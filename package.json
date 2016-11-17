@@ -13,6 +13,7 @@
     "morgan": "~1.7.0",
     "mustache": "^2.3.0",
     "mysql": "^2.12.0",
+    "sequelize": "^3.25.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
@@ -46,8 +47,10 @@
     "web-component-tester": "^4.0.0"
   },
   "scripts": {
-    "ebstart": "bower install && npm run nodestart",
-    "nodestart": "node ./bin/www",
+    "ebstart-production": " NODE_ENV=production bower install && npm run nodestart-production",
+    "ebstart-development":"NODE_ENV=development bower install && npm run nodestart-development",
+    "nodestart-development": "NODE_ENV=development node ./bin/www",
+    "nodestart-production":"NODE_ENV=production node ./bin/www",
     "test": "gulp test:local",
     "start": "gulp serve"
   },
