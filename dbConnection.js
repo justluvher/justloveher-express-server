@@ -1,24 +1,6 @@
 /**
  * Created by justluvher on 2016. 11. 15..
  */
-// var mysql = require('mysql');
-//
-// var connection = mysql.createConnection(
-//   {
-//     host:'aa1hb5a8zoclm0w.cqnytilw0wcs.us-west-2.rds.amazonaws.com',
-//     user:'justloveher',
-//     password:'rbtjrl79',
-//     database:'justloveher_dev'
-//   }
-// );
-//
-// connection.connect(function(err) {
-//   if (err) throw err
-//   console.log('You are now connected...')
-//   console.log(connection.state);
-// })
-//
-// module.exports = connection;
 var Sequelize = require('sequelize');
 var fs = require('fs');
 var path = require('path');
@@ -27,8 +9,8 @@ var db = {};
 
 console.log(__dirname);
 
-var sequelize = new Sequelize('justloveher_dev','justloveher','rbtjrl79',{
-  host:'aa1hb5a8zoclm0w.cqnytilw0wcs.us-west-2.rds.amazonaws.com ',
+var sequelize = new Sequelize('justloveher_product','justlove','rbtjrl79',{
+  host:'aa1kw9fejwpilgh.cqnytilw0wcs.us-west-2.rds.amazonaws.com',
   dialect:'mysql',
   pool:{
     max:100,
