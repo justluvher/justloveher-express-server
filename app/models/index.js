@@ -7,8 +7,8 @@ var fs = require('fs'),
   db = {};
 
 //var sequelize = new Sequelize(config.db);
-var sequelize = new Sequelize('justloveher_dev','justloveher','rbtjrl79',{
-  host:'aa1hb5a8zoclm0w.cqnytilw0wcs.us-west-2.rds.amazonaws.com',
+var sequelize = new Sequelize('product','justlove','rbtjrl79',{
+  host:'aa1kw9fejwpilgh.cqnytilw0wcs.us-west-2.rds.amazonaws.com',
   dialect:'mysql',
   pool:{
     max:100,

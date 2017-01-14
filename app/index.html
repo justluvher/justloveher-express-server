@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Polymer Starter Kit">
+  <meta name="generator" content="Just Love her">
   <title>Polymer Starter Kit</title>
 
   <!-- Place favicon.ico in the `app/` directory -->
@@ -91,6 +91,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="mail"></iron-icon>
             <span>Contact</span>
           </a>
+
+          <a data-route="resume" href="{{baseUrl}}resume">
+            <iron-icon icon="face"></iron-icon>
+            <span>resume</span>
+          </a>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -104,7 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Toolbar icons -->
           <paper-icon-button icon="refresh"></paper-icon-button>
-          <paper-icon-button icon="search"></paper-icon-button>
+          <paper-icon-button icon="face"></paper-icon-button>
 
           <!-- Application name -->
           <div class="middle middle-container">
@@ -175,9 +180,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="contact" tabindex="-1">
               <paper-material elevation="1">
                 <h1 class="page-title" tabindex="-1">Contact</h1>
-                <p>This is the contact section</p>
+                <p>This is the resume section</p>
               </paper-material>
             </section>
+
+            <section data-route="resume" tabindex="-1">
+              <paper-material elevation="1">
+                <my-resume></my-resume>
+              </paper-material>
+            </section>
+
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
@@ -208,7 +220,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <!-- build:js scripts/app.js -->
-  <script src="scripts/app.js"></script>
+  <script src="scripts/app.js">
+
+  </script>
   <!-- endbuild-->
 </body>
 

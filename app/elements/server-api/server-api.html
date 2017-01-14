@@ -1,0 +1,153 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!-- Google Api-->
+<!--<script src="https://apis.google.com/js/api:client.js"></script>-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/google-apis/google-apis.html">
+<link rel="import" href="../../bower_components/google-signin/google-signin.html">
+
+<!-- AWS Cognito-->
+<script src="../../aws/lib/jsbn.js"></script>
+<script src="../../aws/lib/jsbn2.js"></script>
+<script src="../../aws/lib/sjcl.js"></script>
+<script src="../../aws/lib/moment.min.js"></script>
+<script src="../../aws/lib/aws-cognito-sdk.min.js"></script>
+<script src="../../aws/lib/aws-sdk-2.7.13.min.js"></script>
+
+
+
+
+<dom-module id="server-api">
+    <template>
+      <google-signin id="googleSignin"
+                     client-id="836624198645-q70klp3v41f9e7n0tl4vgcpevhur9voi.apps.googleusercontent.com"
+                     scopes="https://www.googleapis.com/auth/drive"
+                     hidden="true"></google-signin>
+    </template>
+    <script>
+      /*global gapi, AWS, apigClientFactory*/
+      const GOOGLE_CLIENT_ID = '836624198645-q70klp3v41f9e7n0tl4vgcpevhur9voi.apps.googleusercontent.com';
+      const AWS_IDENTITY_POOL_ID = 'us-west-2:21718501-0f2d-4706-88cb-bc18331dced6';
+
+      AWS.config.region = 'us-west-2'; // Region
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: AWS_IDENTITY_POOL_ID
+      });
+
+      (function() {
+      'use strict';
+
+      Polymer({
+        is: 'server-api',
+
+        properties: {
+          items: {
+            type: Array,
+            notify: true
+          },
+
+        },
+
+        get isGoogleSignedIn(){
+          return gapi.auth2.getAuthInstance().isSignedIn.get();
+        },
+
+        get googleToken(){
+          return gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+        },
+
+        get credentials(){
+          return AWS.config.credentials;
+        },
+
+        created: function(e){
+          console.log(e);
+          console.log('created');
+        },
+
+        ready: function() {
+          this.items = [
+            'Responsive Web App boilerplate',
+            'Iron Elements and Paper Elements',
+            'End-to-end Build Tooling (including Vulcanize)',
+            'Unit testing with Web Component Tester',
+            'Routing with Page.js',
+            'Offline support with the Platinum Service Worker Elements'
+          ];
+        },
+
+        listeners: {
+          'google-signin-success' : '_handleSigninSuccess',
+          'google-signed-out'     : '_handleSigninedOut'
+        },
+
+        signIn: function(){
+          googleSignin.signIn();
+        },
+
+        signOut: function(){
+          googleSignin.signOut();
+        },
+
+        _handleSigninSuccess: function(result){
+          if(this.isGoogleSignedIn){
+            var googleToken = this.googleToken;
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+              IdentityPoolId : AWS_IDENTITY_POOL_ID,
+              Logins : {
+                'accounts.google.com' : googleToken
+              }
+            });
+            AWS.config.credentials.get(function(err){
+              if (err) {
+                console.log("Error: "+err);
+                return;
+              }
+              console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+
+              // Other service clients will automatically use the Cognito Credentials provider
+              // configured in the JavaScript SDK.
+              var cognitoSyncClient = new AWS.CognitoSync();
+              cognitoSyncClient.listDatasets({
+                IdentityId: AWS.config.credentials.identityId,
+                IdentityPoolId: AWS_IDENTITY_POOL_ID
+              }, function(err, data) {
+                if ( !err ) {
+                  console.log(JSON.stringify(data));
+                }
+              });
+
+              var accessKeyId = AWS.config.credentials.accessKeyId;
+              var secretAccessKey = AWS.config.credentials.secretAccessKey;
+              var sessionToken = AWS.config.credentials.sessionToken;
+              var identityId = AWS.config.credentials.identityId;
+
+              console.log('accessKeyId   '+accessKeyId);
+              console.log('secretAccessKey   '+secretAccessKey);
+              console.log('sessionToken   '+sessionToken);
+              console.log('identityId   '+ identityId);
+              console.log('----------------------------------');
+            });
+          }
+          console.log(JSON.stringify(result));
+          console.log('handlesignin');
+          console.log(this.googleToken);
+        },
+
+        _handleSigninedOut: function(){
+
+        }
+      });
+    })();
+  </script>
+</dom-module>
